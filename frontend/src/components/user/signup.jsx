@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 import GoogleLogin from './GoogleLogin';
+import { signup } from '../../services/auth';
 
 export default function Signup() {
     const [email, setEmail] = useState('');
@@ -12,31 +13,26 @@ export default function Signup() {
     const [isLoading, setIsLoading] = useState(false)
 
 
+
     const handleSubmit = async (e) => {
-        setIsLoading(true)
+        setIsLoading(true);
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5001/api/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, email, password }),
-                credentials: 'include'
-            });
-
-            if (res.ok) {
+            const user = await signup(name, email, password);
+            console.log(user)
+            if (user) {
                 navigate('/leadslist');
+                console.log('signup successful');
 
-            } else if (res.status === 409) { // User already exists
-                alert('User already exists. Redirecting to login page.');
-                navigate('/login');
+
             }
         } catch (error) {
             console.error('Signup error:', error);
+
+        } finally {
+            setIsLoading(false);
         }
     };
-
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
@@ -93,6 +89,8 @@ export default function Signup() {
                             />
                         </div>
                     </div>
+
+
 
                     <div>
                         <button

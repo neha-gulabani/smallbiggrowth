@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoogleLogin from './GoogleLogin';
+import { login } from '../../services/auth';
 
 
 
@@ -12,26 +13,18 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false)
 
     const handleSubmit = async (e) => {
-        setIsLoading(true)
+        setIsLoading(true);
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:5001/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-                credentials: 'include'
-            });
-
-            if (res.ok) {
+            const user = await login(email, password);
+            if (user) {
                 navigate('/leadslist');
-                console.log('login done')
-
+                console.log('login successful');
             }
         } catch (error) {
-            setIsLoading(false)
             console.error('Login error:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 

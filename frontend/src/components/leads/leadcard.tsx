@@ -93,8 +93,9 @@ export default function LeadCard({ lead }: LeadCardProps) {
             >
                 LinkedIn Profile
             </a>
-            <p className="mt-2">
-                Email: {isRevealed ? lead.email : '********'}
+
+            <div className="mt-2 flex justify-between items-center">
+                <p> Email: {isRevealed ? lead.email : '********'}</p>
                 {!isRevealed && (
                     <button
                         onClick={handlePayment}
@@ -103,7 +104,7 @@ export default function LeadCard({ lead }: LeadCardProps) {
                         Reveal Email & Pay
                     </button>
                 )}
-            </p>
+            </div>
         </div>
     );
 }

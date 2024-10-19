@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import LeadCard from './leadcard.tsx';
 import Pagination from '../common/pagination';
+import { logout } from '../../services/auth.js';
 
 export default function LeadList() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -87,7 +88,11 @@ export default function LeadList() {
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Leads</h1>
+            <div className="flex justify-between">
+                <h1 className="text-2xl font-bold mb-4">Leads</h1>
+                <button className="group relative w-fit h-fit flex justify-center py-2 px-4 items-center border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={logout}>Logout</button>
+            </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {currentLeads.map(lead => (
                     <LeadCard key={lead.id} lead={lead} />
