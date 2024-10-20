@@ -11,6 +11,7 @@ const generateToken = (userId) => {
 // Signup
 router.post('/signup', async (req, res) => {
     const { name, email, password } = req.body;
+    console.log(name, email, password)
 
     try {
         const userExists = await User.findOne({ email });
@@ -18,7 +19,9 @@ router.post('/signup', async (req, res) => {
             return res.status(409).json({ message: 'User already exists' });
         }
 
+
         const user = await User.create({ name, email, password });
+        console.log('user', user)
 
         if (user) {
             res.status(201).json({
@@ -27,6 +30,7 @@ router.post('/signup', async (req, res) => {
                 email: user.email,
                 token: generateToken(user._id),
             });
+            console.log(res)
         } else {
             res.status(400).json({ message: 'Invalid user data' });
         }

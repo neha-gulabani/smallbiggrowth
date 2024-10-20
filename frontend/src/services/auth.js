@@ -9,6 +9,7 @@ const login = async (email, password) => {
             email,
             password
         }, { withCredentials: true });
+        console.log(res)
 
         if (res) {
             return res.data;
