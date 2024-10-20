@@ -3,25 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import GoogleLogin from './GoogleLogin';
 import { login } from '../../services/auth';
 
-
-
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState(''); // State for error message
     const navigate = useNavigate();
     const [user, setUser] = useState();
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         setIsLoading(true);
         e.preventDefault();
+        setErrorMessage(''); // Clear error message when submitting
         try {
             const user = await login(email, password);
             if (user) {
                 navigate('/leadslist');
                 console.log('login successful');
+            } else {
+                setErrorMessage('Invalid email or password.'); // Set error message for invalid login
             }
         } catch (error) {
+            setErrorMessage('Login failed. Please try again.'); // Set error message for catch
             console.error('Login error:', error);
         } finally {
             setIsLoading(false);
@@ -59,6 +62,14 @@ export default function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
+
+                    {/* Display error message */}
+                    {errorMessage && (
+                        <div className="text-red-600 text-sm mb-4">
+                            {errorMessage}
+                        </div>
+                    )}
+
                     <button
                         type="submit"
                         className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
@@ -78,7 +89,6 @@ export default function Login() {
                     </div>
                     <div className="mt-6">
                         <GoogleLogin setUser={setUser}></GoogleLogin>
-
                     </div>
                 </div>
             </div>

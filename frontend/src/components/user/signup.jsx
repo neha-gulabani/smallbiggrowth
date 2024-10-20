@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
 import GoogleLogin from './GoogleLogin';
 import { signup } from '../../services/auth';
 
@@ -8,31 +7,30 @@ export default function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
+    const [errorMessage, setErrorMessage] = useState(''); // New state for error message
     const navigate = useNavigate();
     const [user, setUser] = useState();
-    const [isLoading, setIsLoading] = useState(false)
-
-
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         setIsLoading(true);
         e.preventDefault();
+        setErrorMessage(''); // Clear error message when submitting
         try {
             const user = await signup(name, email, password);
-            console.log(user)
+            console.log(user);
             if (user) {
                 navigate('/leadslist');
-                console.log('signup successful');
-
-
+                console.log('Signup successful');
             }
         } catch (error) {
+            setErrorMessage('Signup failed. Please try again.'); // Set error message
             console.error('Signup error:', error);
-
         } finally {
             setIsLoading(false);
         }
     };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
@@ -90,7 +88,12 @@ export default function Signup() {
                         </div>
                     </div>
 
-
+                    {/* Display error message */}
+                    {errorMessage && (
+                        <div className="text-red-600 text-sm mb-4">
+                            {errorMessage}
+                        </div>
+                    )}
 
                     <div>
                         <button
@@ -118,7 +121,6 @@ export default function Signup() {
                             <GoogleLogin setUser={setUser}></GoogleLogin>
                             {user && user.name}
                             {user && user.email}
-
                         </div>
                     </div>
                 </form>
@@ -133,4 +135,5 @@ export default function Signup() {
         </div>
     );
 }
+
 
