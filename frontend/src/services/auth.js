@@ -41,7 +41,7 @@ const signup = async (name, email, password) => {
 
 function logout() {
     localStorage.removeItem('token');
-    window.location.href = 'http://localhost:3000/login'
+    window.location.href = 'https://smallbiggrowth-lbk3.vercel.app/login'
 }
 
 export { login, signup, logout }
