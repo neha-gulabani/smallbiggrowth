@@ -41,5 +41,5 @@ mongoose.connect(process.env.MONGO_URI, {
     .catch((error) => console.log('MongoDB connection error:', error));
 
 app.listen(5001, () => {
-    console.log(`Server running at http://localhost:5001`);
+    console.log(`Server running at https://smallbiggrowth.onrender.com`);
 });

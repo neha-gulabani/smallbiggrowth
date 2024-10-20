@@ -37,7 +37,7 @@ export default function LeadCard({ lead }: LeadCardProps) {
         }
 
         // Create order via backend API
-        const { data } = await axios.post('http://localhost:5001/payment/order', {
+        const { data } = await axios.post('https://smallbiggrowth.onrender.com/payment/order', {
             amount: 1,
             currency: 'INR',
         });
@@ -56,7 +56,7 @@ export default function LeadCard({ lead }: LeadCardProps) {
                 const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
 
                 // Verify the payment via backend API
-                const verifyResponse = await axios.post('http://localhost:5001/payment/payment-capture', {
+                const verifyResponse = await axios.post('https://smallbiggrowth.onrender.com/payment/payment-capture', {
                     order_id: razorpay_order_id,
                     payment_id: razorpay_payment_id,
                     signature: razorpay_signature
