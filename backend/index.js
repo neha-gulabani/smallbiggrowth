@@ -11,7 +11,7 @@ const app = express();
 
 // Enhanced CORS configuration
 app.use(cors({
-    origin: 'https://smallbiggrowth-lbk3.vercel.app/',
+    origin: 'https://smallbiggrowth-lbk3.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
